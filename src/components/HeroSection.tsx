@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import { MessageCircle, ArrowRight } from "lucide-react";
 import heroImage from "@/assets/hero-healthcare-chatbot.png";
 
@@ -21,15 +22,17 @@ const HeroSection = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button 
-                variant="hero" 
-                size="lg" 
-                className="text-lg px-8 py-6 h-auto group"
-              >
-                <MessageCircle className="mr-2 h-5 w-5" />
-                Start Chat
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
+              <Link to="/chat">
+                <Button 
+                  variant="hero" 
+                  size="lg" 
+                  className="text-lg px-8 py-6 h-auto group"
+                >
+                  <MessageCircle className="mr-2 h-5 w-5" />
+                  Start Chat
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
               
               <Button 
                 variant="outline" 
