@@ -47,6 +47,17 @@ const Signup = () => {
     }
   });
 
+  // Helpful error message mapping for common Firebase Auth errors
+  const getFriendlyAuthError = (error) => {
+    if (error?.code === 'auth/unauthorized-domain') {
+      const host = typeof window !== 'undefined' ? window.location.hostname : 'your domain';
+      return `Sign-up blocked: unauthorized domain. Add "${host}" to Firebase Auth > Settings > Authorized domains.`;
+    }
+    if (error?.code === 'auth/popup-blocked') return 'Popup was blocked by the browser. Please allow popups or try again.';
+    if (error?.code === 'auth/cancelled-popup-request') return 'Another sign-in attempt is in progress. Please try again.';
+    return 'Failed to create account with Google. Please try again.';
+  };
+
   // Handle Google sign up
   const handleGoogleSignUp = async () => {
     try {
@@ -54,13 +65,12 @@ const Signup = () => {
       setError('');
       await signInWithGoogle();
       setSuccessMessage('Account created successfully!');
-      
-      // Redirect to dashboard after successful signup
+      // Redirect to home after successful signup
       setTimeout(() => {
-        navigate('/dashboard');
+        navigate('/');
       }, 1500);
     } catch (error) {
-      setError('Failed to create account with Google. Please try again.');
+      setError(getFriendlyAuthError(error));
       console.error('Google sign up error:', error);
     } finally {
       setIsLoading(false);

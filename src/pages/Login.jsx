@@ -23,16 +23,27 @@ const Login = () => {
     password: ''
   });
 
+  // Helpful error message mapping for common Firebase Auth errors
+  const getFriendlyAuthError = (error) => {
+    if (error?.code === 'auth/unauthorized-domain') {
+      const host = typeof window !== 'undefined' ? window.location.hostname : 'your domain';
+      return `Sign-in blocked: unauthorized domain. Add "${host}" to Firebase Auth > Settings > Authorized domains.`;
+    }
+    if (error?.code === 'auth/popup-blocked') return 'Popup was blocked by the browser. Please allow popups or try again.';
+    if (error?.code === 'auth/cancelled-popup-request') return 'Another sign-in attempt is in progress. Please try again.';
+    return 'Failed to sign in with Google. Please try again.';
+  };
+
   // Handle Google sign in
   const handleGoogleSignIn = async () => {
     try {
       setIsLoading(true);
       setError('');
       await signInWithGoogle();
-      // Redirect to dashboard after successful login
-      navigate('/dashboard');
+      // Redirect to home after successful login
+      navigate('/');
     } catch (error) {
-      setError('Failed to sign in with Google. Please try again.');
+      setError(getFriendlyAuthError(error));
       console.error('Google sign in error:', error);
     } finally {
       setIsLoading(false);

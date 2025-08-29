@@ -1,7 +1,7 @@
 // AuthContext.jsx - Authentication context using Firebase Google Auth
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { auth, provider } from '../firebase.js';
-import { onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
+import { onAuthStateChanged, signInWithPopup, signInWithRedirect, getRedirectResult, signOut } from 'firebase/auth';
 
 // Create authentication context
 const AuthContext = createContext();
@@ -22,6 +22,9 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   // Sign in with Google function
+  // Tries popup first, then falls back to redirect for browsers that block popups
+  // Note: If you see auth/unauthorized-domain, add the current domain to
+  // Firebase Console > Authentication > Settings > Authorized domains
   const signInWithGoogle = async () => {
     try {
       setLoading(true);
@@ -29,8 +32,15 @@ export const AuthProvider = ({ children }) => {
       return result;
     } catch (error) {
       console.error('Error signing in with Google:', error);
+      // Fallback to redirect flow for popup issues
+      if (error?.code === 'auth/popup-blocked' || error?.code === 'auth/popup-closed-by-user') {
+        await signInWithRedirect(auth, provider);
+        return; // The page will redirect
+      }
+      // Surface other errors (e.g., auth/unauthorized-domain)
       throw error;
     } finally {
+      // Loading will be reset after redirect as well
       setLoading(false);
     }
   };
@@ -57,6 +67,15 @@ export const AuthProvider = ({ children }) => {
 
     // Cleanup subscription on unmount
     return () => unsubscribe();
+  }, []);
+
+  // Handle sign-in with redirect results (no-op if none)
+  useEffect(() => {
+    getRedirectResult(auth).catch((error) => {
+      if (error) {
+        console.error('Redirect sign-in error:', error);
+      }
+    });
   }, []);
 
   // Context value object containing user state and auth functions
