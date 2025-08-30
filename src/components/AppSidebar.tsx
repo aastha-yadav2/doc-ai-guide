@@ -19,13 +19,15 @@ import {
   FileText, 
   Settings, 
   User,
-  Home
+  Home,
+  Building2
 } from 'lucide-react';
 
 const items = [
   { title: 'Home', url: '/', icon: Home },
   { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
   { title: 'Chatbot', url: '/chat', icon: MessageCircle },
+  { title: 'Pharmacy', url: '/pharmacy', icon: Building2 },
   { title: 'Appointments', url: '/appointments', icon: Calendar },
   { title: 'Reminders', url: '/reminders', icon: Clock },
   { title: 'Health Records', url: '/records', icon: FileText },

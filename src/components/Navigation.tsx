@@ -43,6 +43,9 @@ const Navigation = () => {
             <a href="#" className="text-muted-foreground hover:text-medical-blue transition-colors font-medium">
               Doctors
             </a>
+            <Link to="/pharmacy" className="text-muted-foreground hover:text-medical-blue transition-colors font-medium">
+              Pharmacy
+            </Link>
           </div>
 
           {/* Desktop Auth Buttons / User Menu */}
@@ -128,6 +131,12 @@ const Navigation = () => {
               >
                 Doctors
               </a>
+              <Link
+                to="/pharmacy"
+                className="block px-3 py-2 text-muted-foreground hover:bg-medical-blue-light rounded-md font-medium"
+              >
+                Pharmacy
+              </Link>
               <div className="flex flex-col space-y-2 pt-4">
                 {user ? (
                   <>
