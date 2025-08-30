@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { Heart, Menu, X, LogOut, User } from "lucide-react";
+import { Heart, Menu, X, LogOut, User, ArrowLeft, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
@@ -10,6 +10,7 @@ const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSignOut = async () => {
     try {
@@ -18,6 +19,25 @@ const Navigation = () => {
     } catch (error) {
       console.error('Error signing out:', error);
     }
+  };
+
+  const handleAboutClick = () => {
+    if (location.pathname !== '/') {
+      navigate('/', { replace: true });
+      setTimeout(() => {
+        document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else {
+      document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleBackward = () => {
+    window.history.back();
+  };
+
+  const handleForward = () => {
+    window.history.forward();
   };
 
   return (
@@ -32,14 +52,37 @@ const Navigation = () => {
             <span className="text-xl font-bold text-foreground">HealthChat AI</span>
           </div>
 
+          {/* Navigation Controls */}
+          <div className="flex items-center space-x-2 mr-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleBackward}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleForward}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          </div>
+
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <Link to="/" className="text-foreground hover:text-medical-blue transition-colors font-medium">
               Home
             </Link>
-            <a href="#about" className="text-muted-foreground hover:text-medical-blue transition-colors font-medium">
+            <button 
+              onClick={handleAboutClick}
+              className="text-muted-foreground hover:text-medical-blue transition-colors font-medium"
+            >
               About
-            </a>
+            </button>
             <Link to="/doctors" className="text-muted-foreground hover:text-medical-blue transition-colors font-medium">
               Doctors
             </Link>
@@ -113,18 +156,39 @@ const Navigation = () => {
         {isMenuOpen && (
           <div className="md:hidden border-t border-border bg-white">
             <div className="px-2 pt-2 pb-3 space-y-1">
+              {/* Mobile Navigation Controls */}
+              <div className="flex items-center space-x-2 px-3 py-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleBackward}
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  <span className="ml-2">Back</span>
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleForward}
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  <ArrowRight className="h-4 w-4" />
+                  <span className="ml-2">Forward</span>
+                </Button>
+              </div>
               <Link
                 to="/"
                 className="block px-3 py-2 text-foreground hover:bg-medical-blue-light rounded-md font-medium"
               >
                 Home
               </Link>
-              <a
-                href="#about"
-                className="block px-3 py-2 text-muted-foreground hover:bg-medical-blue-light rounded-md font-medium"
+              <button
+                onClick={handleAboutClick}
+                className="block w-full text-left px-3 py-2 text-muted-foreground hover:bg-medical-blue-light rounded-md font-medium"
               >
                 About
-              </a>
+              </button>
               <Link
                 to="/doctors"
                 className="block px-3 py-2 text-muted-foreground hover:bg-medical-blue-light rounded-md font-medium"
