@@ -34,15 +34,15 @@ const Navigation = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <a href="#" className="text-foreground hover:text-medical-blue transition-colors font-medium">
+            <Link to="/" className="text-foreground hover:text-medical-blue transition-colors font-medium">
               Home
-            </a>
+            </Link>
             <a href="#about" className="text-muted-foreground hover:text-medical-blue transition-colors font-medium">
               About
             </a>
-            <a href="#" className="text-muted-foreground hover:text-medical-blue transition-colors font-medium">
+            <Link to="/doctors" className="text-muted-foreground hover:text-medical-blue transition-colors font-medium">
               Doctors
-            </a>
+            </Link>
             <Link to="/pharmacy" className="text-muted-foreground hover:text-medical-blue transition-colors font-medium">
               Pharmacy
             </Link>
@@ -113,24 +113,24 @@ const Navigation = () => {
         {isMenuOpen && (
           <div className="md:hidden border-t border-border bg-white">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              <a
-                href="#"
+              <Link
+                to="/"
                 className="block px-3 py-2 text-foreground hover:bg-medical-blue-light rounded-md font-medium"
               >
                 Home
-              </a>
+              </Link>
               <a
                 href="#about"
                 className="block px-3 py-2 text-muted-foreground hover:bg-medical-blue-light rounded-md font-medium"
               >
                 About
               </a>
-              <a
-                href="#"
+              <Link
+                to="/doctors"
                 className="block px-3 py-2 text-muted-foreground hover:bg-medical-blue-light rounded-md font-medium"
               >
                 Doctors
-              </a>
+              </Link>
               <Link
                 to="/pharmacy"
                 className="block px-3 py-2 text-muted-foreground hover:bg-medical-blue-light rounded-md font-medium"

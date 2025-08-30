@@ -1,0 +1,102 @@
+import React from 'react';
+import { MapPin, User, Star } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import Navigation from '@/components/Navigation';
+
+const doctors = [
+  {
+    id: 1,
+    name: "Dr. Priya Sharma",
+    specialty: "Cardiologist",
+    location: "Heart Care Center, Dehradun, Uttarakhand",
+    rating: 4.8,
+    experience: "15+ years"
+  },
+  {
+    id: 2,
+    name: "Dr. Rajesh Kumar",
+    specialty: "Orthopedic Surgeon",
+    location: "Bone & Joint Clinic, Joly Grant, Uttarakhand",
+    rating: 4.9,
+    experience: "12+ years"
+  },
+  {
+    id: 3,
+    name: "Dr. Anita Verma",
+    specialty: "Pediatrician",
+    location: "Children's Hospital, Dehradun, Uttarakhand",
+    rating: 4.7,
+    experience: "10+ years"
+  },
+  {
+    id: 4,
+    name: "Dr. Vikram Singh",
+    specialty: "General Physician",
+    location: "Family Care Clinic, Sangatiya Walakhur, Uttarakhand",
+    rating: 4.6,
+    experience: "8+ years"
+  },
+  {
+    id: 5,
+    name: "Dr. Meera Gupta",
+    specialty: "Dermatologist",
+    location: "Skin Care Center, Canal Road, Dehradun, Uttarakhand",
+    rating: 4.8,
+    experience: "14+ years"
+  },
+  {
+    id: 6,
+    name: "Dr. Suresh Bhatt",
+    specialty: "Neurologist",
+    location: "Brain & Spine Institute, Adarsh Nagar, Dehradun, Uttarakhand",
+    rating: 4.9,
+    experience: "18+ years"
+  }
+];
+
+const Doctors = () => {
+  return (
+    <div className="min-h-screen bg-background">
+      <Navigation />
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-foreground mb-2">Our Doctors</h1>
+          <p className="text-muted-foreground">Find experienced healthcare professionals in your area</p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {doctors.map((doctor) => (
+            <Card key={doctor.id} className="hover:shadow-lg transition-shadow duration-300 bg-card border border-border">
+              <CardHeader className="pb-4">
+                <div className="flex items-center space-x-3">
+                  <div className="bg-gradient-to-r from-medical-blue to-health-green p-3 rounded-lg">
+                    <User className="h-6 w-6 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <CardTitle className="text-lg font-semibold text-foreground">{doctor.name}</CardTitle>
+                    <p className="text-sm text-medical-blue font-medium">{doctor.specialty}</p>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-start space-x-2">
+                  <MapPin className="h-4 w-4 text-medical-blue mt-1 flex-shrink-0" />
+                  <p className="text-sm text-muted-foreground leading-relaxed">{doctor.location}</p>
+                </div>
+                <div className="flex items-center justify-between pt-2 border-t border-border">
+                  <div className="flex items-center space-x-1">
+                    <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                    <span className="text-sm font-medium text-foreground">{doctor.rating}</span>
+                  </div>
+                  <span className="text-sm text-muted-foreground">{doctor.experience}</span>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Doctors;
