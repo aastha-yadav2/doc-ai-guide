@@ -37,7 +37,7 @@ const Navigation = () => {
             <a href="#" className="text-foreground hover:text-medical-blue transition-colors font-medium">
               Home
             </a>
-            <a href="#" className="text-muted-foreground hover:text-medical-blue transition-colors font-medium">
+            <a href="#about" className="text-muted-foreground hover:text-medical-blue transition-colors font-medium">
               About
             </a>
             <a href="#" className="text-muted-foreground hover:text-medical-blue transition-colors font-medium">
@@ -117,7 +117,7 @@ const Navigation = () => {
                 Home
               </a>
               <a
-                href="#"
+                href="#about"
                 className="block px-3 py-2 text-muted-foreground hover:bg-medical-blue-light rounded-md font-medium"
               >
                 About
