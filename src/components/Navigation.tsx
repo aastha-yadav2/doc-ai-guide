@@ -1,16 +1,18 @@
 import { Button } from "@/components/ui/button";
-import { Heart, Menu, X, LogOut, User, ArrowLeft, ArrowRight, FileText } from "lucide-react";
+import { Heart, Menu, X, LogOut, User, ArrowLeft, ArrowRight, FileText, Languages } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { useTranslation } from 'react-i18next';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const { t, i18n } = useTranslation();
 
   const handleSignOut = async () => {
     try {
@@ -38,6 +40,10 @@ const Navigation = () => {
 
   const handleForward = () => {
     window.history.forward();
+  };
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
   };
 
   return (
@@ -75,28 +81,48 @@ const Navigation = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <Link to="/" className="text-foreground hover:text-medical-blue transition-colors font-medium">
-              Home
+              {t('navigation.home')}
             </Link>
             <button 
               onClick={handleAboutClick}
               className="text-muted-foreground hover:text-medical-blue transition-colors font-medium"
             >
-              About
+              {t('navigation.about')}
             </button>
             <Link to="/doctors" className="text-muted-foreground hover:text-medical-blue transition-colors font-medium">
-              Doctors
+              {t('navigation.doctors')}
             </Link>
             <Link to="/pharmacy" className="text-muted-foreground hover:text-medical-blue transition-colors font-medium">
-              Pharmacy
+              {t('navigation.pharmacy')}
             </Link>
             <Link to="/government-schemes" className="text-muted-foreground hover:text-medical-blue transition-colors font-medium flex items-center gap-1">
               <FileText className="h-4 w-4" />
-              Schemes
+              {t('navigation.schemes')}
             </Link>
           </div>
 
-          {/* Desktop Auth Buttons / User Menu */}
+          {/* Language Switcher & Desktop Auth Buttons / User Menu */}
           <div className="hidden md:flex items-center space-x-4">
+            {/* Language Switcher */}
+            <div className="flex items-center space-x-1 bg-muted/50 rounded-lg p-1">
+              <Button
+                variant={i18n.language === 'en' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => changeLanguage('en')}
+                className="text-xs px-3 py-1 h-7"
+              >
+                English
+              </Button>
+              <Button
+                variant={i18n.language === 'hi' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => changeLanguage('hi')}
+                className="text-xs px-3 py-1 h-7"
+              >
+                हिंदी
+              </Button>
+            </div>
+
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -122,22 +148,22 @@ const Navigation = () => {
                   </div>
                   <DropdownMenuItem asChild>
                     <Link to="/dashboard" className="cursor-pointer">
-                      Dashboard
+                      {t('navigation.dashboard')}
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
                     <LogOut className="mr-2 h-4 w-4" />
-                    Log out
+                    {t('navigation.logout')}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
               <>
                 <Button variant="ghost" className="text-foreground hover:text-medical-blue" asChild>
-                  <Link to="/login">Login</Link>
+                  <Link to="/login">{t('navigation.login')}</Link>
                 </Button>
                 <Button variant="medical" size="default" asChild>
-                  <Link to="/signup">Sign Up</Link>
+                  <Link to="/signup">{t('navigation.signup')}</Link>
                 </Button>
               </>
             )}
@@ -169,7 +195,7 @@ const Navigation = () => {
                   className="text-muted-foreground hover:text-foreground"
                 >
                   <ArrowLeft className="h-4 w-4" />
-                  <span className="ml-2">Back</span>
+                  <span className="ml-2">{t('navigation.back')}</span>
                 </Button>
                 <Button
                   variant="ghost"
@@ -178,32 +204,53 @@ const Navigation = () => {
                   className="text-muted-foreground hover:text-foreground"
                 >
                   <ArrowRight className="h-4 w-4" />
-                  <span className="ml-2">Forward</span>
+                  <span className="ml-2">{t('navigation.forward')}</span>
                 </Button>
               </div>
+
+              {/* Mobile Language Switcher */}
+              <div className="flex items-center space-x-1 bg-muted/50 rounded-lg p-1 mx-3 mb-2">
+                <Button
+                  variant={i18n.language === 'en' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => changeLanguage('en')}
+                  className="text-xs px-3 py-1 h-7 flex-1"
+                >
+                  English
+                </Button>
+                <Button
+                  variant={i18n.language === 'hi' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => changeLanguage('hi')}
+                  className="text-xs px-3 py-1 h-7 flex-1"
+                >
+                  हिंदी
+                </Button>
+              </div>
+
               <Link
                 to="/"
                 className="block px-3 py-2 text-foreground hover:bg-medical-blue-light rounded-md font-medium"
               >
-                Home
+                {t('navigation.home')}
               </Link>
               <button
                 onClick={handleAboutClick}
                 className="block w-full text-left px-3 py-2 text-muted-foreground hover:bg-medical-blue-light rounded-md font-medium"
               >
-                About
+                {t('navigation.about')}
               </button>
               <Link
                 to="/doctors"
                 className="block px-3 py-2 text-muted-foreground hover:bg-medical-blue-light rounded-md font-medium"
               >
-                Doctors
+                {t('navigation.doctors')}
               </Link>
               <Link
                 to="/pharmacy"
                 className="block px-3 py-2 text-muted-foreground hover:bg-medical-blue-light rounded-md font-medium"
               >
-                Pharmacy
+                {t('navigation.pharmacy')}
               </Link>
               <Link
                 to="/government-schemes"
@@ -211,7 +258,7 @@ const Navigation = () => {
                 onClick={() => setIsMenuOpen(false)}
               >
                 <FileText className="h-4 w-4" />
-                Government Schemes
+                {t('navigation.governmentSchemes')}
               </Link>
               <div className="flex flex-col space-y-2 pt-4">
                 {user ? (
@@ -221,20 +268,20 @@ const Navigation = () => {
                       <p className="text-muted-foreground">{user.email}</p>
                     </div>
                     <Button variant="ghost" className="justify-start" asChild>
-                      <Link to="/dashboard">Dashboard</Link>
+                      <Link to="/dashboard">{t('navigation.dashboard')}</Link>
                     </Button>
                     <Button variant="ghost" className="justify-start" onClick={handleSignOut}>
                       <LogOut className="mr-2 h-4 w-4" />
-                      Log out
+                      {t('navigation.logout')}
                     </Button>
                   </>
                 ) : (
                   <>
                     <Button variant="ghost" className="justify-start" asChild>
-                      <Link to="/login">Login</Link>
+                      <Link to="/login">{t('navigation.login')}</Link>
                     </Button>
                     <Button variant="medical" className="justify-start" asChild>
-                      <Link to="/signup">Sign Up</Link>
+                      <Link to="/signup">{t('navigation.signup')}</Link>
                     </Button>
                   </>
                 )}

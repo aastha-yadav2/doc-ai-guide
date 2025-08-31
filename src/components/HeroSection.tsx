@@ -2,8 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { MessageCircle, ArrowRight } from "lucide-react";
 import heroImage from "@/assets/hero-healthcare-chatbot.png";
+import { useTranslation } from 'react-i18next';
 
 const HeroSection = () => {
+  const { t } = useTranslation();
+  
   return (
     <section className="bg-gradient-to-br from-white via-medical-blue-light to-health-green-light py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -11,14 +14,11 @@ const HeroSection = () => {
           {/* Content */}
           <div className="text-center lg:text-left">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6">
-              Your AI-Powered{" "}
-              <span className="bg-gradient-to-r from-medical-blue to-health-green bg-clip-text text-transparent">
-                Healthcare Assistant
-              </span>
+              {t('hero.title')}
             </h1>
             
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto lg:mx-0">
-              Chat with our AI or connect with doctors instantly for trusted medical guidance
+              {t('hero.subtitle')}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -29,7 +29,7 @@ const HeroSection = () => {
                   className="text-lg px-8 py-6 h-auto group"
                 >
                   <MessageCircle className="mr-2 h-5 w-5" />
-                  Start Chat
+                  {t('hero.startChat')}
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
@@ -39,25 +39,25 @@ const HeroSection = () => {
                 size="lg" 
                 className="text-lg px-8 py-6 h-auto border-medical-blue text-medical-blue hover:bg-medical-blue hover:text-white"
               >
-                Learn More
+                {t('hero.learnMore')}
               </Button>
             </div>
 
             {/* Trust indicators */}
             <div className="mt-12 pt-8 border-t border-border/50">
-              <p className="text-sm text-muted-foreground mb-4">Trusted by thousands of patients</p>
+              <p className="text-sm text-muted-foreground mb-4">{t('hero.trustedBy')}</p>
               <div className="flex items-center justify-center lg:justify-start space-x-8 text-sm text-muted-foreground">
                 <div className="flex items-center">
                   <span className="font-semibold text-medical-blue mr-1">24/7</span>
-                  Available
+                  {t('hero.available247')}
                 </div>
                 <div className="flex items-center">
                   <span className="font-semibold text-health-green mr-1">HIPAA</span>
-                  Compliant
+                  {t('hero.hipaaCompliant')}
                 </div>
                 <div className="flex items-center">
                   <span className="font-semibold text-medical-blue mr-1">AI+</span>
-                  Real Doctors
+                  {t('hero.aiDoctors')}
                 </div>
               </div>
             </div>

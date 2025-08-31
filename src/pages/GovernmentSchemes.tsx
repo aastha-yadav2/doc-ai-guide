@@ -9,48 +9,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import Navigation from '@/components/Navigation';
+import { useTranslation } from 'react-i18next';
 
-// Translation keys placeholder
-const translations = {
-  en: {
-    title: "Government Schemes",
-    pregnantWomen: "Pregnant Women",
-    newbornBabies: "Newborn Babies",
-    showAll: "Show All Schemes",
-    showLess: "Show Top 3",
-    bookmark: "Bookmark",
-    setReminder: "Set Reminder",
-    callHelpline: "Call Local Helpline",
-    moreInfo: "More Info",
-    notes: "Notes",
-    launch: "Launch",
-    eligibility: "Eligibility",
-    benefits: "Benefits",
-    documents: "Documents Required",
-    howToApply: "How to Apply",
-    selectDate: "Select reminder date",
-    alertBanner: "For state-specific benefits, please select your state. Contact your PHC/ASHA/Anganwadi for help registering."
-  },
-  hi: {
-    title: "सरकारी योजनाएं",
-    pregnantWomen: "गर्भवती महिलाएं",
-    newbornBabies: "नवजात शिशु",
-    showAll: "सभी योजनाएं दिखाएं",
-    showLess: "टॉप 3 दिखाएं",
-    bookmark: "बुकमार्क",
-    setReminder: "रिमाइंडर सेट करें",
-    callHelpline: "स्थानीय हेल्पलाइन कॉल करें",
-    moreInfo: "अधिक जानकारी",
-    notes: "नोट्स",
-    launch: "लॉन्च",
-    eligibility: "पात्रता",
-    benefits: "लाभ",
-    documents: "आवश्यक दस्तावेज",
-    howToApply: "आवेदन कैसे करें",
-    selectDate: "रिमाइंडर तारीख चुनें",
-    alertBanner: "राज्य-विशिष्ट लाभों के लिए, कृपया अपना राज्य चुनें। पंजीकरण में सहायता के लिए अपने PHC/ASHA/आंगनवाड़ी से संपर्क करें।"
-  }
-};
 
 const schemesData = {
   "pregnant_women_schemes": [
@@ -170,14 +130,12 @@ const schemesData = {
 };
 
 const GovernmentSchemes = () => {
-  const [currentLang, setCurrentLang] = useState<'en' | 'hi'>('en');
   const [showAllPregnant, setShowAllPregnant] = useState(false);
   const [showAllNewborn, setShowAllNewborn] = useState(false);
   const [bookmarkedSchemes, setBookmarkedSchemes] = useState<Set<string>>(new Set());
   const [reminderDates, setReminderDates] = useState<Record<string, Date>>({});
   const [selectedDate, setSelectedDate] = useState<Date>();
-
-  const t = translations[currentLang];
+  const { t } = useTranslation();
 
   const toggleBookmark = (schemeName: string) => {
     const newBookmarks = new Set(bookmarkedSchemes);
@@ -246,23 +204,23 @@ const GovernmentSchemes = () => {
       <CardContent className="space-y-3">
         <div className="space-y-2 text-sm">
           <div>
-            <span className="font-medium text-foreground">{t.launch}:</span> {scheme.launch}
+            <span className="font-medium text-foreground">{t('governmentSchemes.launch')}:</span> {scheme.launch}
           </div>
           <div>
-            <span className="font-medium text-foreground">{t.eligibility}:</span> {scheme.eligibility}
+            <span className="font-medium text-foreground">{t('governmentSchemes.eligibility')}:</span> {scheme.eligibility}
           </div>
           <div>
-            <span className="font-medium text-foreground">{t.benefits}:</span>{' '}
+            <span className="font-medium text-foreground">{t('governmentSchemes.benefits')}:</span>{' '}
             <span dangerouslySetInnerHTML={{
               __html: formatBenefits(scheme.benefits).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
             }} />
           </div>
           <div>
-            <span className="font-medium text-foreground">{t.documents}:</span>{' '}
+            <span className="font-medium text-foreground">{t('governmentSchemes.documents')}:</span>{' '}
             {scheme.documents_required.join(', ')}
           </div>
           <div>
-            <span className="font-medium text-foreground">{t.howToApply}:</span>{' '}
+            <span className="font-medium text-foreground">{t('governmentSchemes.howToApply')}:</span>{' '}
             <button
               onClick={() => openSourceLink(scheme.sources[0])}
               className="text-primary underline hover:text-primary/80"
@@ -274,7 +232,7 @@ const GovernmentSchemes = () => {
 
         {scheme.notes && (
           <div className="text-sm text-muted-foreground bg-muted/50 p-2 rounded">
-            <span className="font-medium">{t.notes}:</span> {scheme.notes}
+            <span className="font-medium">{t('governmentSchemes.notes')}:</span> {scheme.notes}
           </div>
         )}
 
@@ -294,7 +252,7 @@ const GovernmentSchemes = () => {
               className="text-xs"
             >
               <ExternalLink className="h-3 w-3 mr-1" />
-              {t.moreInfo} {index + 1}
+              {t('governmentSchemes.moreInfo')} {index + 1}
             </Button>
           ))}
         </div>
@@ -318,21 +276,13 @@ const GovernmentSchemes = () => {
         {/* Alert Banner */}
         <div className="mb-6 p-4 bg-primary/10 border border-primary/20 rounded-lg flex items-start gap-3">
           <AlertCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-          <p className="text-sm text-foreground">{t.alertBanner}</p>
+          <p className="text-sm text-foreground">{t('governmentSchemes.alertBanner')}</p>
         </div>
 
         {/* Header with Language Toggle and Helpline */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-          <h1 className="text-3xl font-bold text-foreground">{t.title}</h1>
+          <h1 className="text-3xl font-bold text-foreground">{t('governmentSchemes.title')}</h1>
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setCurrentLang(currentLang === 'en' ? 'hi' : 'en')}
-              className="text-xs"
-            >
-              {currentLang === 'en' ? 'हिंदी' : 'English'}
-            </Button>
             <Button
               variant="outline"
               size="sm"
@@ -340,7 +290,7 @@ const GovernmentSchemes = () => {
               className="text-xs"
             >
               <Phone className="h-3 w-3 mr-1" />
-              {t.callHelpline}
+              {t('governmentSchemes.callHelpline')}
             </Button>
           </div>
         </div>
@@ -348,13 +298,13 @@ const GovernmentSchemes = () => {
         {/* Tabs */}
         <Tabs defaultValue="pregnant" className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-6">
-            <TabsTrigger value="pregnant" className="text-sm">{t.pregnantWomen}</TabsTrigger>
-            <TabsTrigger value="newborn" className="text-sm">{t.newbornBabies}</TabsTrigger>
+            <TabsTrigger value="pregnant" className="text-sm">{t('governmentSchemes.pregnantWomen')}</TabsTrigger>
+            <TabsTrigger value="newborn" className="text-sm">{t('governmentSchemes.newbornBabies')}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="pregnant" className="space-y-4">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold text-foreground">{t.pregnantWomen}</h2>
+              <h2 className="text-xl font-semibold text-foreground">{t('governmentSchemes.pregnantWomen')}</h2>
               <Button
                 variant="ghost"
                 size="sm"
@@ -364,12 +314,12 @@ const GovernmentSchemes = () => {
                 {showAllPregnant ? (
                   <>
                     <ChevronUp className="h-4 w-4 mr-1" />
-                    {t.showLess}
+                    {t('governmentSchemes.showLess')}
                   </>
                 ) : (
                   <>
                     <ChevronDown className="h-4 w-4 mr-1" />
-                    {t.showAll}
+                    {t('governmentSchemes.showAll')}
                   </>
                 )}
               </Button>
@@ -386,7 +336,7 @@ const GovernmentSchemes = () => {
 
           <TabsContent value="newborn" className="space-y-4">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold text-foreground">{t.newbornBabies}</h2>
+              <h2 className="text-xl font-semibold text-foreground">{t('governmentSchemes.newbornBabies')}</h2>
               <Button
                 variant="ghost"
                 size="sm"
@@ -396,12 +346,12 @@ const GovernmentSchemes = () => {
                 {showAllNewborn ? (
                   <>
                     <ChevronUp className="h-4 w-4 mr-1" />
-                    {t.showLess}
+                    {t('governmentSchemes.showLess')}
                   </>
                 ) : (
                   <>
                     <ChevronDown className="h-4 w-4 mr-1" />
-                    {t.showAll}
+                    {t('governmentSchemes.showAll')}
                   </>
                 )}
               </Button>
