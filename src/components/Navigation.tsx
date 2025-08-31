@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Heart, Menu, X, LogOut, User, ArrowLeft, ArrowRight } from "lucide-react";
+import { Heart, Menu, X, LogOut, User, ArrowLeft, ArrowRight, FileText } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -88,6 +88,10 @@ const Navigation = () => {
             </Link>
             <Link to="/pharmacy" className="text-muted-foreground hover:text-medical-blue transition-colors font-medium">
               Pharmacy
+            </Link>
+            <Link to="/government-schemes" className="text-muted-foreground hover:text-medical-blue transition-colors font-medium flex items-center gap-1">
+              <FileText className="h-4 w-4" />
+              Schemes
             </Link>
           </div>
 
@@ -200,6 +204,14 @@ const Navigation = () => {
                 className="block px-3 py-2 text-muted-foreground hover:bg-medical-blue-light rounded-md font-medium"
               >
                 Pharmacy
+              </Link>
+              <Link
+                to="/government-schemes"
+                className="block px-3 py-2 text-muted-foreground hover:bg-medical-blue-light rounded-md font-medium flex items-center gap-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <FileText className="h-4 w-4" />
+                Government Schemes
               </Link>
               <div className="flex flex-col space-y-2 pt-4">
                 {user ? (
