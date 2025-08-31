@@ -1,56 +1,56 @@
 import React from 'react';
-import { MapPin, User, Star } from 'lucide-react';
+import { MapPin, User } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Navigation from '@/components/Navigation';
 
 const doctors = [
   {
     id: 1,
-    name: "Dr. Priya Sharma",
-    specialty: "Cardiologist",
-    location: "Heart Care Center, Dehradun, Uttarakhand",
-    rating: 4.8,
-    experience: "15+ years"
+    name: "Dr. Gurjeet Khurana",
+    specialty: "Anaesthesiology",
+    location: "Dehradun, Uttarakhand"
   },
   {
     id: 2,
-    name: "Dr. Rajesh Kumar",
-    specialty: "Orthopedic Surgeon",
-    location: "Bone & Joint Clinic, Joly Grant, Uttarakhand",
-    rating: 4.9,
-    experience: "12+ years"
+    name: "Dr. Anurag Rawat",
+    specialty: "Cardiology",
+    location: "Dehradun, Uttarakhand"
   },
   {
     id: 3,
-    name: "Dr. Anita Verma",
-    specialty: "Pediatrician",
-    location: "Children's Hospital, Dehradun, Uttarakhand",
-    rating: 4.7,
-    experience: "10+ years"
+    name: "Dr. Deepak Goel",
+    specialty: "Neurology",
+    location: "Dehradun, Uttarakhand"
   },
   {
     id: 4,
-    name: "Dr. Vikram Singh",
-    specialty: "General Physician",
-    location: "Family Care Clinic, Sangatiya Walakhur, Uttarakhand",
-    rating: 4.6,
-    experience: "8+ years"
+    name: "Dr. Malini Srivastava",
+    specialty: "Clinical Psychology",
+    location: "Dehradun, Uttarakhand"
   },
   {
     id: 5,
-    name: "Dr. Meera Gupta",
-    specialty: "Dermatologist",
-    location: "Skin Care Center, Canal Road, Dehradun, Uttarakhand",
-    rating: 4.8,
-    experience: "14+ years"
+    name: "Dr. Atul Agrawal",
+    specialty: "Orthopaedics",
+    location: "Dehradun, Uttarakhand"
   },
   {
     id: 6,
-    name: "Dr. Suresh Bhatt",
-    specialty: "Neurologist",
-    location: "Brain & Spine Institute, Adarsh Nagar, Dehradun, Uttarakhand",
-    rating: 4.9,
-    experience: "18+ years"
+    name: "Dr. Ranjeet Kumar",
+    specialty: "Neurosurgery",
+    location: "Dehradun, Uttarakhand"
+  },
+  {
+    id: 7,
+    name: "Dr. Reshma Kaushik",
+    specialty: "Emergency Medicine",
+    location: "Dehradun, Uttarakhand"
+  },
+  {
+    id: 8,
+    name: "Dr. Rashmi Jindal",
+    specialty: "Dermatology, Venereology and Leprosy",
+    location: "Dehradun, Uttarakhand"
   }
 ];
 
@@ -82,13 +82,6 @@ const Doctors = () => {
                 <div className="flex items-start space-x-2">
                   <MapPin className="h-4 w-4 text-medical-blue mt-1 flex-shrink-0" />
                   <p className="text-sm text-muted-foreground leading-relaxed">{doctor.location}</p>
-                </div>
-                <div className="flex items-center justify-between pt-2 border-t border-border">
-                  <div className="flex items-center space-x-1">
-                    <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                    <span className="text-sm font-medium text-foreground">{doctor.rating}</span>
-                  </div>
-                  <span className="text-sm text-muted-foreground">{doctor.experience}</span>
                 </div>
               </CardContent>
             </Card>
