@@ -92,6 +92,9 @@ const Navigation = () => {
             <Link to="/doctors" className="text-muted-foreground hover:text-medical-blue transition-colors font-medium">
               {t('navigation.doctors')}
             </Link>
+            <Link to="/vaccines" className="text-muted-foreground hover:text-medical-blue transition-colors font-medium">
+              {t('navigation.vaccines')}
+            </Link>
             <Link to="/pharmacy" className="text-muted-foreground hover:text-medical-blue transition-colors font-medium">
               {t('navigation.pharmacy')}
             </Link>
@@ -245,6 +248,12 @@ const Navigation = () => {
                 className="block px-3 py-2 text-muted-foreground hover:bg-medical-blue-light rounded-md font-medium"
               >
                 {t('navigation.doctors')}
+              </Link>
+              <Link
+                to="/vaccines"
+                className="block px-3 py-2 text-muted-foreground hover:bg-medical-blue-light rounded-md font-medium"
+              >
+                {t('navigation.vaccines')}
               </Link>
               <Link
                 to="/pharmacy"
