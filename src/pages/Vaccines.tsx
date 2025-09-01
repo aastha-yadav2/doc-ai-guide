@@ -4,12 +4,55 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, Clock, AlertCircle, CheckCircle2, Phone } from "lucide-react";
+import { Calendar, Clock, AlertCircle, CheckCircle2, Phone, MapPin, ExternalLink } from "lucide-react";
 import Navigation from "@/components/Navigation";
 
 const Vaccines = () => {
   const { t } = useTranslation();
   const [reminderSet, setReminderSet] = useState<string[]>([]);
+
+  const vaccinationCenters = [
+    {
+      name: "Rewati Nursing Home",
+      nameHindi: "रेवती नर्सिंग होम",
+      address: "94, Dharampur -1, Adarsh Nagar, Adarsh Nagar-248001 (Adarsh Nagar)",
+      addressHindi: "94, धरमपुर -1, आदर्श नगर, आदर्श नगर-248001 (आदर्श नगर)",
+      contact: "08485920627",
+      mapUrl: "https://jsdl.in/DT-99UIQ2QUA62"
+    },
+    {
+      name: "Pink Clinic",
+      nameHindi: "पिंक क्लिनिक",
+      address: "Bhagwati Tower, Opp-Sky Garden, Ring Road, Jogiwala, KTY-248001 (Opp-Sky Garden)",
+      addressHindi: "भगवती टावर, स्काई गार्डन के सामने, रिंग रोड, जोगीवाला, KTY-248001 (स्काई गार्डन के सामने)",
+      contact: "07041824029",
+      mapUrl: "https://jsdl.in/DT-99Q143AWGQP"
+    },
+    {
+      name: "Dr Rahul Vashistha (Raksheeta Child Care Clinic)",
+      nameHindi: "डॉ राहुल वशिष्ठ (रक्षीता चाइल्ड केयर क्लिनिक)",
+      address: "138, Old Nehru Colony, Dharampur, Dehradun - 248001 (Near Indian Overseas Bank, Shiv Mandir)",
+      addressHindi: "138, पुराना नेहरू कॉलोनी, धरमपुर, देहरादून - 248001 (इंडियन ओवरसीज बैंक, शिव मंदिर के पास)",
+      contact: "Not provided",
+      mapUrl: "https://jsdl.in/DT-99UUQFXAIB2"
+    },
+    {
+      name: "Vardan Child Health Clinic",
+      nameHindi: "वर्धन चाइल्ड हेल्थ क्लिनिक",
+      address: "Officer Colony Get Number 2, Opposite Rathi Sweet, Doon Officer Colony, Dehradun City-248001",
+      addressHindi: "ऑफिसर कॉलोनी गेट नंबर 2, राठी स्वीट्स के सामने, दून ऑफिसर कॉलोनी, देहरादून सिटी-248001",
+      contact: "Not provided",
+      mapUrl: "https://jsdl.in/DT-99R5WR2EJGT"
+    },
+    {
+      name: "Himalayan Hospital",
+      nameHindi: "हिमालयन अस्पताल",
+      address: "Himalayan Hospital, Jolly Grant, Swami Ram Nagar, Joly Grant, Dehradun, Uttarakhand 248016",
+      addressHindi: "हिमालयन अस्पताल, जॉली ग्रांट, स्वामी राम नगर, जॉली ग्रांट, देहरादून, उत्तराखंड 248016",
+      contact: "Not provided",
+      mapUrl: "#"
+    }
+  ];
 
   const vaccineSchedule = [
     {
@@ -89,10 +132,10 @@ const Vaccines = () => {
         {/* Header Section */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-foreground mb-4">
-            {t("Vaccination Schedule")}
+            {t("vaccines.title")}
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            {t("Complete vaccination schedule for babies and children according to Indian guidelines")}
+            {t("vaccines.subtitle")}
           </p>
         </div>
 
@@ -102,13 +145,13 @@ const Vaccines = () => {
             <div className="flex items-center gap-2">
               <AlertCircle className="h-5 w-5 text-orange-600" />
               <CardTitle className="text-orange-800 dark:text-orange-200">
-                {t("Important Notice")}
+                {t("vaccines.importantNotice")}
               </CardTitle>
             </div>
           </CardHeader>
           <CardContent className="pt-0">
             <p className="text-orange-700 dark:text-orange-300">
-              {t("Always consult with your pediatrician before vaccinations. This schedule follows Indian Academy of Pediatrics guidelines. Visit your nearest government health center for free vaccinations under UIP.")}
+              {t("vaccines.noticeText")}
             </p>
             <Button 
               variant="outline" 
@@ -116,16 +159,17 @@ const Vaccines = () => {
               onClick={() => window.open("tel:104")}
             >
               <Phone className="h-4 w-4 mr-2" />
-              {t("Call National Health Helpline: 104")}
+              {t("vaccines.callHelpline")}
             </Button>
           </CardContent>
         </Card>
 
         {/* Tabs for different views */}
         <Tabs defaultValue="schedule" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-8">
-            <TabsTrigger value="schedule">{t("Age-wise Schedule")}</TabsTrigger>
-            <TabsTrigger value="tracker">{t("Vaccination Tracker")}</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-3 mb-8">
+            <TabsTrigger value="schedule">{t("vaccines.ageWiseSchedule")}</TabsTrigger>
+            <TabsTrigger value="centers">{t("vaccines.vaccinationCenters")}</TabsTrigger>
+            <TabsTrigger value="tracker">{t("vaccines.vaccinationTracker")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="schedule" className="space-y-6">
@@ -193,6 +237,105 @@ const Vaccines = () => {
                 </CardContent>
               </Card>
             ))}
+          </TabsContent>
+
+          <TabsContent value="centers" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <MapPin className="h-5 w-5" />
+                  {t("Vaccination Centers in Dehradun")}
+                </CardTitle>
+                <CardDescription>
+                  {t("Find nearby vaccination centers with contact details and locations")}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-4">
+                  {vaccinationCenters.map((center, index) => (
+                    <Card key={index} className="border-l-4 border-l-primary">
+                      <CardContent className="p-4">
+                        <div className="space-y-3">
+                          <div className="flex items-start justify-between">
+                            <h4 className="font-semibold text-lg text-foreground">
+                              {t("language") === "hi" ? center.nameHindi : center.name}
+                            </h4>
+                            <Badge variant="outline">{t("Verified")}</Badge>
+                          </div>
+                          
+                          <div className="flex items-start gap-2 text-muted-foreground">
+                            <MapPin className="h-4 w-4 mt-1 flex-shrink-0" />
+                            <p className="text-sm">
+                              {t("language") === "hi" ? center.addressHindi : center.address}
+                            </p>
+                          </div>
+                          
+                          <div className="flex flex-wrap gap-2">
+                            {center.contact !== "Not provided" && (
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => window.open(`tel:${center.contact}`)}
+                                className="flex items-center gap-1"
+                              >
+                                <Phone className="h-3 w-3" />
+                                {center.contact}
+                              </Button>
+                            )}
+                            
+                            {center.mapUrl !== "#" && (
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => window.open(center.mapUrl, '_blank')}
+                                className="flex items-center gap-1"
+                              >
+                                <ExternalLink className="h-3 w-3" />
+                                {t("View on Map")}
+                              </Button>
+                            )}
+                            
+                            <Button
+                              size="sm"
+                              variant="default"
+                              className="flex items-center gap-1"
+                            >
+                              <Calendar className="h-3 w-3" />
+                              {t("Book Appointment")}
+                            </Button>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Quick Help Section */}
+            <Card className="bg-blue-50 dark:bg-blue-950/20 border-blue-200">
+              <CardContent className="p-4">
+                <div className="flex items-start gap-3">
+                  <Phone className="h-5 w-5 text-blue-600 mt-1" />
+                  <div>
+                    <h4 className="font-medium text-blue-800 dark:text-blue-200 mb-1">
+                      {t("Need Help Finding Centers?")}
+                    </h4>
+                    <p className="text-sm text-blue-700 dark:text-blue-300 mb-2">
+                      {t("Call the National Immunization Helpline for assistance")}
+                    </p>
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="border-blue-300 text-blue-700 hover:bg-blue-100"
+                      onClick={() => window.open("tel:104")}
+                    >
+                      {t("Call 104 - Free Helpline")}
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           <TabsContent value="tracker" className="space-y-6">
