@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Send, Mic, User, Bot, Calendar, Clock, Stethoscope } from 'lucide-react';
+import { Send, Mic, User, Bot, Calendar, Clock, Stethoscope, ArrowLeft, Home } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { Link } from 'react-router-dom';
 
 interface Message {
   id: string;
@@ -59,7 +60,7 @@ const ChatBot = () => {
     {
       id: '1',
       role: 'ai',
-      content: 'Hello! I\'m DeepShiva, your AI healthcare assistant. How can I help you today?',
+      content: 'Hello! I\'m your Nourivox AI assistant - a voice that nurtures your health. How can I help you today?',
       timestamp: new Date()
     }
   ]);
@@ -154,14 +155,25 @@ const ChatBot = () => {
     <div className="flex flex-col h-screen bg-background">
       {/* Header */}
       <header className="bg-card border-b border-border px-6 py-4 shadow-soft">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-medical-blue to-health-green flex items-center justify-center">
-            <Bot className="w-6 h-6 text-white" />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-medical-blue to-health-green flex items-center justify-center">
+              <Bot className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h1 className="text-xl font-semibold text-foreground">Nourivox Assistant</h1>
+              <p className="text-sm text-muted-foreground">A voice that nurtures your health</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-xl font-semibold text-foreground">Healthcare Assistant</h1>
-            <p className="text-sm text-muted-foreground">Powered by DeepShiva AI</p>
-          </div>
+          
+          {/* Back to Home Button */}
+          <Button variant="ghost" size="sm" asChild className="hover-scale">
+            <Link to="/" className="flex items-center gap-2">
+              <ArrowLeft className="w-4 h-4" />
+              <Home className="w-4 h-4" />
+              <span className="hidden sm:inline">Back to Home</span>
+            </Link>
+          </Button>
         </div>
       </header>
 
