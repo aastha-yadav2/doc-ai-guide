@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Send, Mic, User, Bot, Calendar, Clock, Stethoscope, ArrowLeft, Home } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Link } from 'react-router-dom';
+import nourivoxLogo from "@/assets/nourivox-logo.png";
 
 interface Message {
   id: string;
@@ -157,13 +158,11 @@ const ChatBot = () => {
       <header className="bg-card border-b border-border px-6 py-4 shadow-soft">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-medical-blue to-health-green flex items-center justify-center">
-              <Bot className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h1 className="text-xl font-semibold text-foreground">Nourivox Assistant</h1>
-              <p className="text-sm text-muted-foreground">A voice that nurtures your health</p>
-            </div>
+            <img 
+              src={nourivoxLogo} 
+              alt="Nourivox Logo" 
+              className="h-10 w-auto animate-fade-in"
+            />
           </div>
           
           {/* Back to Home Button */}

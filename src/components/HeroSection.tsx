@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { MessageCircle, ArrowRight } from "lucide-react";
 import heroImage from "@/assets/hero-healthcare-chatbot.png";
+import nourivoxLogo from "@/assets/nourivox-logo.png";
 import { useTranslation } from 'react-i18next';
 
 const HeroSection = () => {
@@ -13,7 +14,16 @@ const HeroSection = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
           <div className="text-center lg:text-left">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6">
+            {/* Animated Logo */}
+            <div className="flex justify-center lg:justify-start mb-8">
+              <img 
+                src={nourivoxLogo} 
+                alt="Nourivox - A voice that nurtures your health" 
+                className="h-20 w-auto animate-fade-in hover-scale"
+              />
+            </div>
+            
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6 animate-fade-in">
               {t('hero.title')}
             </h1>
             

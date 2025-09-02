@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Heart, Menu, X, LogOut, User, ArrowLeft, ArrowRight, FileText, Languages } from "lucide-react";
+import { Menu, X, LogOut, User, ArrowLeft, ArrowRight, FileText, Languages } from "lucide-react";
+import nourivoxLogo from "@/assets/nourivox-logo.png";
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -52,10 +53,11 @@ const Navigation = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center space-x-3">
-            <div className="bg-gradient-to-r from-medical-blue to-health-green p-2 rounded-lg">
-              <Heart className="h-6 w-6 text-white" />
-            </div>
-            <span className="text-xl font-bold text-foreground">Nourivox</span>
+            <img 
+              src={nourivoxLogo} 
+              alt="Nourivox Logo" 
+              className="h-8 w-auto hover-scale animate-fade-in"
+            />
           </div>
 
           {/* Navigation Controls */}
