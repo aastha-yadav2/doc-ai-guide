@@ -10,6 +10,7 @@ import RemindersCard from '@/components/dashboard/RemindersCard';
 import HealthStatsCard from '@/components/dashboard/HealthStatsCard';
 import HealthRecordsCard from '@/components/dashboard/HealthRecordsCard';
 import QuickActionsCard from '@/components/dashboard/QuickActionsCard';
+import PatientProfileCard from '@/components/dashboard/PatientProfileCard';
 
 const Dashboard = () => {
   return (
@@ -57,6 +58,9 @@ const Dashboard = () => {
 
           {/* Main Content */}
           <main className="flex-1 p-6 space-y-6">
+            {/* Patient Profile */}
+            <PatientProfileCard />
+            
             {/* Quick Actions */}
             <QuickActionsCard />
             
