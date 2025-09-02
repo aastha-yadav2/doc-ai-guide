@@ -26,11 +26,11 @@ const Dashboard = () => {
                 <SidebarTrigger className="hover:bg-muted" />
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-r from-medical-blue to-health-green flex items-center justify-center">
-                    <span className="text-white font-semibold text-lg">H</span>
+                    <span className="text-white font-semibold text-lg">N</span>
                   </div>
                   <div>
-                    <h1 className="text-xl font-semibold text-foreground">Patient Dashboard</h1>
-                    <p className="text-sm text-muted-foreground">Welcome back, John</p>
+                    <h1 className="text-xl font-semibold text-foreground">Nourivox Dashboard</h1>
+                    <p className="text-sm text-muted-foreground">A voice that nurtures your health</p>
                   </div>
                 </div>
               </div>

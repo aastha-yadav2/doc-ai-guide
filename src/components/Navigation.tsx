@@ -55,7 +55,7 @@ const Navigation = () => {
             <div className="bg-gradient-to-r from-medical-blue to-health-green p-2 rounded-lg">
               <Heart className="h-6 w-6 text-white" />
             </div>
-            <span className="text-xl font-bold text-foreground">HealthChat AI</span>
+            <span className="text-xl font-bold text-foreground">Nourivox</span>
           </div>
 
           {/* Navigation Controls */}
