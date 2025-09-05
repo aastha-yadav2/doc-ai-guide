@@ -3,7 +3,9 @@ import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/AppSidebar';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Bell, User } from 'lucide-react';
+import { Bell, User, Home } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import nourivoxLogo from "@/assets/nourivox-logo.png";
 import { Badge } from '@/components/ui/badge';
 import AppointmentsCard from '@/components/dashboard/AppointmentsCard';
 import RemindersCard from '@/components/dashboard/RemindersCard';
@@ -25,17 +27,27 @@ const Dashboard = () => {
               <div className="flex items-center gap-3">
                 <SidebarTrigger className="hover:bg-muted" />
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-medical-blue to-health-green flex items-center justify-center">
-                    <span className="text-white font-semibold text-lg">N</span>
-                  </div>
+                  <img 
+                    src={nourivoxLogo} 
+                    alt="Nourivox Logo" 
+                    className="h-8 w-auto animate-fade-in"
+                  />
                   <div>
-                    <h1 className="text-xl font-semibold text-foreground">Nourivox Dashboard</h1>
+                    <h1 className="text-xl font-semibold text-foreground">Patient Dashboard</h1>
                     <p className="text-sm text-muted-foreground">A voice that nurtures your health</p>
                   </div>
                 </div>
               </div>
               
               <div className="flex items-center gap-3">
+                {/* Back to Home Button */}
+                <Button variant="ghost" size="sm" asChild className="text-muted-foreground hover:text-foreground">
+                  <Link to="/" className="flex items-center gap-2">
+                    <Home className="w-4 h-4" />
+                    <span className="hidden sm:inline">Back to Home</span>
+                  </Link>
+                </Button>
+                
                 <Button variant="ghost" size="icon" className="relative">
                   <Bell className="w-5 h-5" />
                   <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-destructive">
