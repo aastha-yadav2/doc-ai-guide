@@ -1,4 +1,4 @@
-// Login.jsx - Login page with Firebase Google Authentication
+// Login.jsx - Login page with Supabase Authentication
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -12,7 +12,7 @@ import { Loader2, Mail } from 'lucide-react';
 
 const Login = () => {
   // Get auth functions from context
-  const { signInWithGoogle, loading } = useAuth();
+  const { signIn, signInWithGoogle, loading } = useAuth();
   const navigate = useNavigate();
   
   // Local state for form and error handling
@@ -23,15 +23,12 @@ const Login = () => {
     password: ''
   });
 
-  // Helpful error message mapping for common Firebase Auth errors
+  // Helpful error message mapping for common Supabase Auth errors
   const getFriendlyAuthError = (error) => {
-    if (error?.code === 'auth/unauthorized-domain') {
-      const host = typeof window !== 'undefined' ? window.location.hostname : 'your domain';
-      return `Sign-in blocked: unauthorized domain. Add "${host}" to Firebase Auth > Settings > Authorized domains.`;
-    }
-    if (error?.code === 'auth/popup-blocked') return 'Popup was blocked by the browser. Please allow popups or try again.';
-    if (error?.code === 'auth/cancelled-popup-request') return 'Another sign-in attempt is in progress. Please try again.';
-    return 'Failed to sign in with Google. Please try again.';
+    if (error?.message?.includes('Invalid login credentials')) return 'Invalid email or password. Please try again.';
+    if (error?.message?.includes('Email not confirmed')) return 'Please check your email and click the confirmation link.';
+    if (error?.message?.includes('Too many requests')) return 'Too many login attempts. Please try again later.';
+    return error?.message || 'Failed to sign in. Please try again.';
   };
 
   // Handle Google sign in
@@ -50,10 +47,22 @@ const Login = () => {
     }
   };
 
-  // Handle traditional form submission (placeholder for future implementation)
-  const handleSubmit = (e) => {
+  // Handle email/password login
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('Traditional login not implemented yet. Please use Google Sign In.');
+    
+    try {
+      setIsLoading(true);
+      setError('');
+      await signIn(formData.email, formData.password);
+      // Redirect to dashboard after successful login
+      navigate('/dashboard');
+    } catch (error) {
+      setError(getFriendlyAuthError(error));
+      console.error('Login error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Handle form input changes
@@ -138,8 +147,15 @@ const Login = () => {
               />
             </div>
 
-            <Button type="submit" className="w-full" variant="medical" disabled>
-              Sign In (Coming Soon)
+            <Button type="submit" className="w-full" variant="medical" disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Signing In...
+                </>
+              ) : (
+                'Sign In'
+              )}
             </Button>
           </form>
 

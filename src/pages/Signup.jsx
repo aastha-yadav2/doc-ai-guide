@@ -1,4 +1,4 @@
-// Signup.jsx - Signup page with role selection and Firebase Google Authentication
+// Signup.jsx - Signup page with role selection and Supabase Authentication
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -13,7 +13,7 @@ import { Loader2, Mail, User, UserCheck, Shield } from 'lucide-react';
 
 const Signup = () => {
   // Get auth functions from context
-  const { signInWithGoogle, loading } = useAuth();
+  const { signUp, signInWithGoogle, updateProfile, loading } = useAuth();
   const navigate = useNavigate();
   
   // Local state for form and error handling
@@ -47,15 +47,13 @@ const Signup = () => {
     }
   });
 
-  // Helpful error message mapping for common Firebase Auth errors
+  // Helpful error message mapping for common Supabase Auth errors
   const getFriendlyAuthError = (error) => {
-    if (error?.code === 'auth/unauthorized-domain') {
-      const host = typeof window !== 'undefined' ? window.location.hostname : 'your domain';
-      return `Sign-up blocked: unauthorized domain. Add "${host}" to Firebase Auth > Settings > Authorized domains.`;
-    }
-    if (error?.code === 'auth/popup-blocked') return 'Popup was blocked by the browser. Please allow popups or try again.';
-    if (error?.code === 'auth/cancelled-popup-request') return 'Another sign-in attempt is in progress. Please try again.';
-    return 'Failed to create account with Google. Please try again.';
+    if (error?.message?.includes('Invalid login credentials')) return 'Invalid email or password. Please try again.';
+    if (error?.message?.includes('Email not confirmed')) return 'Please check your email and click the confirmation link.';
+    if (error?.message?.includes('User already registered')) return 'An account with this email already exists. Please sign in instead.';
+    if (error?.message?.includes('Password should be at least 6 characters')) return 'Password must be at least 6 characters long.';
+    return error?.message || 'Failed to create account. Please try again.';
   };
 
   // Handle Google sign up
@@ -77,8 +75,8 @@ const Signup = () => {
     }
   };
 
-  // Handle traditional form submission (placeholder for future implementation)
-  const handleSubmit = (e) => {
+  // Handle email/password signup
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const currentFormData = formData[activeTab];
     
@@ -93,7 +91,35 @@ const Signup = () => {
       return;
     }
     
-    setError('Traditional signup not implemented yet. Please use Google Sign Up.');
+    try {
+      setIsLoading(true);
+      setError('');
+      
+      // Sign up user
+      const { user } = await signUp(currentFormData.email, currentFormData.password, {
+        name: currentFormData.fullName
+      });
+      
+      // Update profile with additional data
+      if (user) {
+        await updateProfile({
+          name: currentFormData.fullName,
+          age: currentFormData.age ? parseInt(currentFormData.age) : null
+        });
+      }
+      
+      setSuccessMessage('Account created successfully! Please check your email to confirm your account.');
+      
+      // Redirect to login after successful signup
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+    } catch (error) {
+      setError(getFriendlyAuthError(error));
+      console.error('Signup error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Handle form input changes
@@ -256,8 +282,15 @@ const Signup = () => {
                   />
                 </div>
                 
-                <Button type="submit" className="w-full" variant="medical" disabled>
-                  Create Patient Account (Coming Soon)
+                <Button type="submit" className="w-full" variant="medical" disabled={isLoading}>
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Creating Account...
+                    </>
+                  ) : (
+                    'Create Patient Account'
+                  )}
                 </Button>
               </form>
             </TabsContent>
@@ -340,8 +373,15 @@ const Signup = () => {
                   />
                 </div>
                 
-                <Button type="submit" className="w-full" variant="medical" disabled>
-                  Create Doctor Account (Coming Soon)
+                <Button type="submit" className="w-full" variant="medical" disabled={isLoading}>
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Creating Account...
+                    </>
+                  ) : (
+                    'Create Doctor Account'
+                  )}
                 </Button>
               </form>
             </TabsContent>
@@ -400,8 +440,15 @@ const Signup = () => {
                   />
                 </div>
                 
-                <Button type="submit" className="w-full" variant="medical" disabled>
-                  Create Admin Account (Coming Soon)
+                <Button type="submit" className="w-full" variant="medical" disabled={isLoading}>
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Creating Account...
+                    </>
+                  ) : (
+                    'Create Admin Account'
+                  )}
                 </Button>
               </form>
             </TabsContent>

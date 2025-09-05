@@ -1,7 +1,6 @@
-// AuthContext.jsx - Authentication context using Firebase Google Auth
+// AuthContext.jsx - Authentication context using Supabase Auth
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { auth, provider } from '../firebase.js';
-import { onAuthStateChanged, signInWithPopup, signInWithRedirect, getRedirectResult, signOut } from 'firebase/auth';
+import { supabase } from '@/integrations/supabase/client';
 
 // Create authentication context
 const AuthContext = createContext();
@@ -17,73 +16,107 @@ export const useAuth = () => {
 
 // Authentication provider component
 export const AuthProvider = ({ children }) => {
-  // State to store current user and loading state
+  // State to store current user and session
   const [user, setUser] = useState(null);
+  const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Sign in with Google function
-  // Tries popup first, then falls back to redirect for browsers that block popups
-  // Note: If you see auth/unauthorized-domain, add the current domain to
-  // Firebase Console > Authentication > Settings > Authorized domains
-  const signInWithGoogle = async () => {
-    try {
-      setLoading(true);
-      const result = await signInWithPopup(auth, provider);
-      return result;
-    } catch (error) {
-      console.error('Error signing in with Google:', error);
-      // Fallback to redirect flow for popup issues
-      if (error?.code === 'auth/popup-blocked' || error?.code === 'auth/popup-closed-by-user') {
-        await signInWithRedirect(auth, provider);
-        return; // The page will redirect
+  // Sign up with email and password
+  const signUp = async (email, password, userData = {}) => {
+    const redirectUrl = `${window.location.origin}/`;
+    
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: redirectUrl,
+        data: userData
       }
-      // Surface other errors (e.g., auth/unauthorized-domain)
-      throw error;
-    } finally {
-      // Loading will be reset after redirect as well
-      setLoading(false);
-    }
+    });
+    
+    if (error) throw error;
+    return data;
+  };
+
+  // Sign in with email and password
+  const signIn = async (email, password) => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
+    
+    if (error) throw error;
+    return data;
+  };
+
+  // Sign in with Google
+  const signInWithGoogle = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/`
+      }
+    });
+    
+    if (error) throw error;
+    return data;
   };
 
   // Sign out function
   const signOutUser = async () => {
-    try {
-      setLoading(true);
-      await signOut(auth);
-    } catch (error) {
-      console.error('Error signing out:', error);
-      throw error;
-    } finally {
-      setLoading(false);
-    }
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error;
+  };
+
+  // Update user profile
+  const updateProfile = async (profileData) => {
+    if (!user) throw new Error('No user logged in');
+    
+    const { data, error } = await supabase
+      .from('profiles')
+      .upsert({ 
+        user_id: user.id, 
+        ...profileData,
+        updated_at: new Date().toISOString()
+      })
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
   };
 
   // Listen for authentication state changes
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+    // Set up auth state listener FIRST
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+        setLoading(false);
+      }
+    );
+
+    // THEN check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setUser(session?.user ?? null);
       setLoading(false);
     });
 
-    // Cleanup subscription on unmount
-    return () => unsubscribe();
-  }, []);
-
-  // Handle sign-in with redirect results (no-op if none)
-  useEffect(() => {
-    getRedirectResult(auth).catch((error) => {
-      if (error) {
-        console.error('Redirect sign-in error:', error);
-      }
-    });
+    return () => subscription.unsubscribe();
   }, []);
 
   // Context value object containing user state and auth functions
   const value = {
     user,
+    session,
     loading,
+    signUp,
+    signIn,
     signInWithGoogle,
-    signOut: signOutUser
+    signOut: signOutUser,
+    updateProfile
   };
 
   return (
