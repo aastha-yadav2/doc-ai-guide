@@ -40,8 +40,8 @@ const Login = () => {
       setIsLoading(true);
       setError('');
       await signInWithGoogle();
-      // Redirect to home after successful login
-      navigate('/');
+      // Redirect to dashboard after successful login
+      navigate('/dashboard');
     } catch (error) {
       setError(getFriendlyAuthError(error));
       console.error('Google sign in error:', error);

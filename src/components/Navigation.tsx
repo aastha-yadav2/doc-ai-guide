@@ -104,6 +104,11 @@ const Navigation = () => {
               <FileText className="h-4 w-4" />
               {t('navigation.schemes')}
             </Link>
+            {user && (
+              <Link to="/dashboard" className="text-muted-foreground hover:text-medical-blue transition-colors font-medium">
+                {t('navigation.dashboard')}
+              </Link>
+            )}
           </div>
 
           {/* Language Switcher & Desktop Auth Buttons / User Menu */}
