@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 import { 
   User, 
   Calendar, 
@@ -14,25 +21,118 @@ import {
   Phone,
   Mail,
   MapPin,
-  Edit
+  Edit,
+  Save,
+  X
 } from 'lucide-react';
 
 const PatientProfileCard = () => {
-  const patientData = {
-    name: "John Doe",
-    age: 32,
-    gender: "Male",
-    patientId: "P001234",
-    bloodGroup: "A+",
-    height: "5'10\"",
-    weight: "75 kg",
-    phone: "+91 98765 43210",
-    email: "john.doe@email.com",
-    address: "123 Health Street, Wellness City",
-    emergencyContact: "+91 98765 43211",
-    allergies: ["Penicillin", "Shellfish"],
-    medicalConditions: ["Hypertension"],
-    lastVisit: "Dec 15, 2024"
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [profileData, setProfileData] = useState({
+    name: "",
+    age: "",
+    gender: "",
+    bloodGroup: "",
+    height: "",
+    weight: "",
+    phone: "",
+    address: "",
+    allergies: "",
+    medicalConditions: ""
+  });
+
+  // Load profile data from Supabase
+  useEffect(() => {
+    if (user) {
+      loadProfile();
+    }
+  }, [user]);
+
+  const loadProfile = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('user_id', user?.id)
+        .single();
+      
+      if (error && error.code !== 'PGRST116') {
+        console.error('Error loading profile:', error);
+        return;
+      }
+      
+      if (data) {
+        setProfileData({
+          name: data.name || "",
+          age: data.age?.toString() || "",
+          gender: data.gender || "",
+          bloodGroup: data.blood_group || "",
+          height: data.height || "",
+          weight: data.weight || "",
+          phone: data.phone || "",
+          address: data.address || "",
+          allergies: data.allergies || "",
+          medicalConditions: data.medical_conditions || ""
+        });
+      }
+    } catch (error) {
+      console.error('Error loading profile:', error);
+    }
+  };
+
+  const handleSave = async () => {
+    if (!user) return;
+    
+    setLoading(true);
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .upsert({
+          user_id: user.id,
+          name: profileData.name,
+          age: profileData.age ? parseInt(profileData.age) : null,
+          gender: profileData.gender,
+          blood_group: profileData.bloodGroup,
+          height: profileData.height,
+          weight: profileData.weight,
+          phone: profileData.phone,
+          address: profileData.address,
+          allergies: profileData.allergies,
+          medical_conditions: profileData.medicalConditions
+        });
+
+      if (error) throw error;
+
+      toast({
+        title: "Profile updated",
+        description: "Your profile has been successfully updated."
+      });
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error saving profile:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update profile. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    loadProfile(); // Reset to original data
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    setProfileData(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
   return (
