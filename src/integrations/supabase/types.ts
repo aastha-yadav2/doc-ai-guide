@@ -16,28 +16,52 @@ export type Database = {
     Tables: {
       profiles: {
         Row: {
+          address: string | null
           age: number | null
+          allergies: string | null
+          blood_group: string | null
           created_at: string
+          gender: string | null
+          height: string | null
           id: string
+          medical_conditions: string | null
           name: string | null
+          phone: string | null
           updated_at: string
           user_id: string
+          weight: string | null
         }
         Insert: {
+          address?: string | null
           age?: number | null
+          allergies?: string | null
+          blood_group?: string | null
           created_at?: string
+          gender?: string | null
+          height?: string | null
           id?: string
+          medical_conditions?: string | null
           name?: string | null
+          phone?: string | null
           updated_at?: string
           user_id: string
+          weight?: string | null
         }
         Update: {
+          address?: string | null
           age?: number | null
+          allergies?: string | null
+          blood_group?: string | null
           created_at?: string
+          gender?: string | null
+          height?: string | null
           id?: string
+          medical_conditions?: string | null
           name?: string | null
+          phone?: string | null
           updated_at?: string
           user_id?: string
+          weight?: string | null
         }
         Relationships: []
       }
