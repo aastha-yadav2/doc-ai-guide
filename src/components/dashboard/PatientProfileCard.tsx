@@ -90,19 +90,22 @@ const PatientProfileCard = () => {
     try {
       const { error } = await supabase
         .from('profiles')
-        .upsert({
-          user_id: user.id,
-          name: profileData.name,
-          age: profileData.age ? parseInt(profileData.age) : null,
-          gender: profileData.gender,
-          blood_group: profileData.bloodGroup,
-          height: profileData.height,
-          weight: profileData.weight,
-          phone: profileData.phone,
-          address: profileData.address,
-          allergies: profileData.allergies,
-          medical_conditions: profileData.medicalConditions
-        });
+        .upsert(
+          {
+            user_id: user.id,
+            name: profileData.name,
+            age: profileData.age ? parseInt(profileData.age) : null,
+            gender: profileData.gender,
+            blood_group: profileData.bloodGroup,
+            height: profileData.height,
+            weight: profileData.weight,
+            phone: profileData.phone,
+            address: profileData.address,
+            allergies: profileData.allergies,
+            medical_conditions: profileData.medicalConditions
+          },
+          { onConflict: 'user_id' }
+        );
 
       if (error) throw error;
 

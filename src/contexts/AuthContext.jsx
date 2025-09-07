@@ -74,13 +74,16 @@ export const AuthProvider = ({ children }) => {
     
     const { data, error } = await supabase
       .from('profiles')
-      .upsert({ 
-        user_id: user.id, 
-        ...profileData,
-        updated_at: new Date().toISOString()
-      })
+      .upsert(
+        { 
+          user_id: user.id, 
+          ...profileData,
+          updated_at: new Date().toISOString()
+        },
+        { onConflict: 'user_id' }
+      )
       .select()
-      .single();
+      .maybeSingle();
     
     if (error) throw error;
     return data;
