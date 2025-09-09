@@ -156,7 +156,7 @@ const GovernmentSchemes = () => {
   };
 
   const callHelpline = () => {
-    window.open('tel:+911234567890', '_self');
+    window.open('tel:112', '_self');
   };
 
   const openSourceLink = (url: string) => {
