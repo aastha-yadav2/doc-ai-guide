@@ -114,24 +114,37 @@ const Navigation = () => {
           {/* Language Switcher & Desktop Auth Buttons / User Menu */}
           <div className="hidden md:flex items-center space-x-4">
             {/* Language Switcher */}
-            <div className="flex items-center space-x-1 bg-muted/50 rounded-lg p-1">
-              <Button
-                variant={i18n.language === 'en' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => changeLanguage('en')}
-                className="text-xs px-3 py-1 h-7"
-              >
-                English
-              </Button>
-              <Button
-                variant={i18n.language === 'hi' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => changeLanguage('hi')}
-                className="text-xs px-3 py-1 h-7"
-              >
-                हिंदी
-              </Button>
-            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="flex items-center gap-2">
+                  <Languages className="h-4 w-4" />
+                  <span className="text-sm">{i18n.language.toUpperCase()}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-40">
+                <DropdownMenuItem onClick={() => changeLanguage('en')} className="cursor-pointer">
+                  English
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => changeLanguage('hi')} className="cursor-pointer">
+                  हिंदी
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => changeLanguage('bn')} className="cursor-pointer">
+                  বাংলা
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => changeLanguage('te')} className="cursor-pointer">
+                  తెలుగు
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => changeLanguage('mr')} className="cursor-pointer">
+                  मराठी
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => changeLanguage('ta')} className="cursor-pointer">
+                  தமிழ்
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => changeLanguage('gu')} className="cursor-pointer">
+                  ગુજરાતી
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
             {user ? (
               <DropdownMenu>
@@ -219,23 +232,69 @@ const Navigation = () => {
               </div>
 
               {/* Mobile Language Switcher */}
-              <div className="flex items-center space-x-1 bg-muted/50 rounded-lg p-1 mx-3 mb-2">
-                <Button
-                  variant={i18n.language === 'en' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => changeLanguage('en')}
-                  className="text-xs px-3 py-1 h-7 flex-1"
-                >
-                  English
-                </Button>
-                <Button
-                  variant={i18n.language === 'hi' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => changeLanguage('hi')}
-                  className="text-xs px-3 py-1 h-7 flex-1"
-                >
-                  हिंदी
-                </Button>
+              <div className="px-3 py-2">
+                <div className="flex items-center gap-2 mb-2">
+                  <Languages className="h-4 w-4" />
+                  <span className="text-sm font-medium">{t('navigation.language')}</span>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <Button
+                    variant={i18n.language === 'en' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => changeLanguage('en')}
+                    className="text-xs px-2 py-1 h-8"
+                  >
+                    English
+                  </Button>
+                  <Button
+                    variant={i18n.language === 'hi' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => changeLanguage('hi')}
+                    className="text-xs px-2 py-1 h-8"
+                  >
+                    हिंदी
+                  </Button>
+                  <Button
+                    variant={i18n.language === 'bn' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => changeLanguage('bn')}
+                    className="text-xs px-2 py-1 h-8"
+                  >
+                    বাংলা
+                  </Button>
+                  <Button
+                    variant={i18n.language === 'te' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => changeLanguage('te')}
+                    className="text-xs px-2 py-1 h-8"
+                  >
+                    తెలుగు
+                  </Button>
+                  <Button
+                    variant={i18n.language === 'mr' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => changeLanguage('mr')}
+                    className="text-xs px-2 py-1 h-8"
+                  >
+                    मराठी
+                  </Button>
+                  <Button
+                    variant={i18n.language === 'ta' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => changeLanguage('ta')}
+                    className="text-xs px-2 py-1 h-8"
+                  >
+                    தமிழ்
+                  </Button>
+                  <Button
+                    variant={i18n.language === 'gu' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => changeLanguage('gu')}
+                    className="text-xs px-2 py-1 h-8 col-span-2"
+                  >
+                    ગુજરાતી
+                  </Button>
+                </div>
               </div>
 
               <Link
