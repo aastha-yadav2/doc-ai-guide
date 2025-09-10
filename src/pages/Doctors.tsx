@@ -2,6 +2,7 @@ import React from 'react';
 import { MapPin, User } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Navigation from '@/components/Navigation';
+import { useTranslation } from 'react-i18next';
 
 const doctors = [
   {
@@ -55,13 +56,15 @@ const doctors = [
 ];
 
 const Doctors = () => {
+  const { t } = useTranslation();
+  
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Our Doctors</h1>
-          <p className="text-muted-foreground">Find experienced healthcare professionals in your area</p>
+          <h1 className="text-3xl font-bold text-foreground mb-2">{t('doctors.title')}</h1>
+          <p className="text-muted-foreground">{t('doctors.subtitle')}</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

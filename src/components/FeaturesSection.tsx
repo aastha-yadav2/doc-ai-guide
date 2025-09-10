@@ -1,51 +1,52 @@
 import { MessageSquare, Video, Calendar, Shield } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { useTranslation } from 'react-i18next';
 
-const features = [
-  {
-    icon: MessageSquare,
-    title: "24/7 AI Chat Support",
-    description: "Get instant responses to your health questions anytime, anywhere with our advanced AI assistant.",
-    color: "text-medical-blue",
-    bgColor: "bg-medical-blue-light"
-  },
-  {
-    icon: Video,
-    title: "Doctor Consultations",
-    description: "Connect with certified healthcare professionals through secure video calls and consultations.",
-    color: "text-health-green",
-    bgColor: "bg-health-green-light"
-  },
-  {
-    icon: Calendar,
-    title: "Appointment Reminders",
-    description: "Never miss an appointment with smart reminders and seamless calendar integration.",
-    color: "text-medical-blue",
-    bgColor: "bg-medical-blue-light"
-  },
-  {
-    icon: Shield,
-    title: "Secure & Private",
-    description: "Your health data is protected with enterprise-grade security and HIPAA compliance.",
-    color: "text-health-green",
-    bgColor: "bg-health-green-light"
-  }
-];
 
 const FeaturesSection = () => {
+  const { t } = useTranslation();
+  
+  const features = [
+    {
+      icon: MessageSquare,
+      title: t('features.aiChat.title'),
+      description: t('features.aiChat.description'),
+      color: "text-medical-blue",
+      bgColor: "bg-medical-blue-light"
+    },
+    {
+      icon: Video,
+      title: t('features.doctorConnect.title'),
+      description: t('features.doctorConnect.description'),
+      color: "text-health-green",
+      bgColor: "bg-health-green-light"
+    },
+    {
+      icon: Calendar,
+      title: t('features.personalizedCare.title'),
+      description: t('features.personalizedCare.description'),
+      color: "text-medical-blue",
+      bgColor: "bg-medical-blue-light"
+    },
+    {
+      icon: Shield,
+      title: t('features.securePrivate.title'),
+      description: t('features.securePrivate.description'),
+      color: "text-health-green",
+      bgColor: "bg-health-green-light"
+    }
+  ];
+
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Why Choose{" "}
-            <span className="bg-gradient-to-r from-medical-blue to-health-green bg-clip-text text-transparent">
-              HealthChat AI
-            </span>
+            {t('features.title')}
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Experience the future of healthcare with our comprehensive AI-powered platform designed for your wellness
+            {t('features.subtitle')}
           </p>
         </div>
 

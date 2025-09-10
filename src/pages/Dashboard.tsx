@@ -7,6 +7,7 @@ import { Bell, User, Home } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import nourivoxLogo from "@/assets/nourivox-logo.png";
 import { Badge } from '@/components/ui/badge';
+import { useTranslation } from 'react-i18next';
 import AppointmentsCard from '@/components/dashboard/AppointmentsCard';
 import RemindersCard from '@/components/dashboard/RemindersCard';
 import HealthStatsCard from '@/components/dashboard/HealthStatsCard';
@@ -15,6 +16,8 @@ import QuickActionsCard from '@/components/dashboard/QuickActionsCard';
 import PatientProfileCard from '@/components/dashboard/PatientProfileCard';
 
 const Dashboard = () => {
+  const { t } = useTranslation();
+  
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">
@@ -33,8 +36,8 @@ const Dashboard = () => {
                     className="h-8 w-auto animate-fade-in"
                   />
                   <div>
-                    <h1 className="text-xl font-semibold text-foreground">Patient Dashboard</h1>
-                    <p className="text-sm text-muted-foreground">A voice that nurtures your health</p>
+                    <h1 className="text-xl font-semibold text-foreground">{t('dashboard.title')}</h1>
+                    <p className="text-sm text-muted-foreground">{t('hero.subtitle')}</p>
                   </div>
                 </div>
               </div>
@@ -44,7 +47,7 @@ const Dashboard = () => {
                 <Button variant="ghost" size="sm" asChild className="text-muted-foreground hover:text-foreground">
                   <Link to="/" className="flex items-center gap-2">
                     <Home className="w-4 h-4" />
-                    <span className="hidden sm:inline">Back to Home</span>
+                    <span className="hidden sm:inline">{t('navigation.home')}</span>
                   </Link>
                 </Button>
                 

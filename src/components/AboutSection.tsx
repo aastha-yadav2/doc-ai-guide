@@ -1,17 +1,20 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Target, Telescope } from "lucide-react";
+import { useTranslation } from 'react-i18next';
 
 const AboutSection = () => {
+  const { t } = useTranslation();
+  
   return (
     <section id="about" className="py-20 bg-gradient-to-br from-background via-medical-blue-light/10 to-health-green-light/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-foreground mb-4">
-            About HealthChat AI
+            {t('about.title')}
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Empowering healthcare knowledge through innovative technology and expert collaboration
+            {t('about.subtitle')}
           </p>
         </div>
 
@@ -23,21 +26,21 @@ const AboutSection = () => {
               <div className="mx-auto w-16 h-16 bg-gradient-to-r from-medical-blue to-health-green rounded-full flex items-center justify-center mb-4">
                 <Users className="h-8 w-8 text-white" />
               </div>
-              <CardTitle className="text-2xl text-medical-blue">Contributors</CardTitle>
+              <CardTitle className="text-2xl text-medical-blue">{t('about.aiTechnology.title')}</CardTitle>
             </CardHeader>
             <CardContent className="text-center space-y-4">
               <div className="space-y-3">
                 <div className="p-3 rounded-lg bg-medical-blue-light/10 border border-medical-blue/10">
-                  <p className="font-semibold text-foreground">Developers & Designers</p>
-                  <p className="text-sm text-muted-foreground">Build and maintain the platform</p>
+                  <p className="font-semibold text-foreground">{t('about.expertDoctors.title')}</p>
+                  <p className="text-sm text-muted-foreground">{t('about.expertDoctors.description')}</p>
                 </div>
                 <div className="p-3 rounded-lg bg-health-green-light/10 border border-health-green/10">
-                  <p className="font-semibold text-foreground">Healthcare Experts & Researchers</p>
-                  <p className="text-sm text-muted-foreground">Provide accurate content</p>
+                  <p className="font-semibold text-foreground">{t('about.patientFirst.title')}</p>
+                  <p className="text-sm text-muted-foreground">{t('about.patientFirst.description')}</p>
                 </div>
                 <div className="p-3 rounded-lg bg-medical-blue-light/10 border border-medical-blue/10">
-                  <p className="font-semibold text-foreground">Content Writers</p>
-                  <p className="text-sm text-muted-foreground">Ensure clarity and simplicity</p>
+                  <p className="font-semibold text-foreground">{t('about.aiTechnology.title')}</p>
+                  <p className="text-sm text-muted-foreground">{t('about.aiTechnology.description')}</p>
                 </div>
               </div>
             </CardContent>
